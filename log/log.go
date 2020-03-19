@@ -23,12 +23,9 @@ func InitLogger(logLevel string) error {
 		level = zap.InfoLevel
 	}
 
-	encoderConfig := zap.NewProductionEncoderConfig()
-	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
-
 	productionConfig := zap.NewProductionConfig()
 	productionConfig.Level = zap.NewAtomicLevelAt(level)
-	productionConfig.EncoderConfig = encoderConfig
+	productionConfig.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 
 	var err error
 	Logger, err = productionConfig.Build()
