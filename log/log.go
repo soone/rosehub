@@ -8,7 +8,7 @@ import (
 var Logger *zap.Logger
 
 // InitLogger initializes zap log
-func InitLogger(logLevel string) error {
+func InitLogger(logLevel, mode string) error {
 
 	var level zapcore.Level
 
@@ -23,12 +23,18 @@ func InitLogger(logLevel string) error {
 		level = zap.InfoLevel
 	}
 
-	productionConfig := zap.NewProductionConfig()
-	productionConfig.Level = zap.NewAtomicLevelAt(level)
-	productionConfig.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+	var config zap.Config
+	if mode == "prod" {
+		config = zap.NewProductionConfig()
+	} else {
+		config = zap.NewDevelopmentConfig()
+	}
+
+	config.Level = zap.NewAtomicLevelAt(level)
+	config.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 
 	var err error
-	Logger, err = productionConfig.Build()
+	Logger, err = config.Build()
 	if err != nil {
 		return err
 	}
