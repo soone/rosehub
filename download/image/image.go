@@ -12,7 +12,7 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-func DownloadImage(imgURL, save, fileName string) error {
+func DownloadImage(imgURL, sourceDir, save, fileName string) error {
 	vals, err := url.Parse(imgURL)
 	if err != nil {
 		return err
@@ -38,7 +38,7 @@ func DownloadImage(imgURL, save, fileName string) error {
 		lastSlashIndex = 0
 	}
 
-	fSave = vals.Path[:lastSlashIndex]
+	fSave = sourceDir + vals.Path[:lastSlashIndex]
 	fName = vals.Path[lastSlashIndex:lastDotIndex]
 	suffix = vals.Path[lastDotIndex:]
 
