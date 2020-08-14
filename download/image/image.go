@@ -2,7 +2,7 @@ package download
 
 import (
 	"bytes"
-	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -24,7 +24,7 @@ func DownloadImage(imgURL, sourceDir, save, fileName string) error {
 	}
 
 	if statusCode != http.StatusOK {
-		return errors.New("statusCode is not 200")
+		return fmt.Errorf("statusCode is %d is not %d", statusCode, http.StatusOK)
 	}
 
 	var fSave, fName, suffix string
